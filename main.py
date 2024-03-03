@@ -134,20 +134,28 @@ if __name__ == '__main__':
     # plt.title('Probability Density Function (PDF)')
     # plt.show()
 
-    image = cv2.imread("images/lena.png", cv2.IMREAD_GRAYSCALE)
+    image = cv2.imread("images/view_3.jpg", cv2.IMREAD_GRAYSCALE)
     # Flatten the pixel values
     pixels = image.flatten()
 
-    # Calculate the PMF
-    pmf, bins = np.histogram(pixels, bins=256, range=(0, 256))
+    histogram, bins = np.histogram(pixels, bins=256, range=(0, 256))
     # pdf, bins = np.histogram(pixels, bins=256, range=(0, 256), density=True)
 
     # Normalize the PMF
-    pmf = pmf / float(np.sum(pmf))
+    pmf = histogram / float(np.sum(histogram))
+
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), dpi=100)
+
+    ax1.imshow(cv2.cvtColor(image, cv2.COLOR_GRAY2RGB))  # !!!
+    ax1.axis('off')
+    ax1.set_title('Grayscale Image', fontsize=12)
 
     # Plot the PMF
-    plt.plot(bins[:-1], pmf, color='b')
-    plt.xlabel('Pixel Value')
-    plt.ylabel('Probability')  # plt.ylabel('Probability Density')
-    plt.title('Probability Mass Function (PMF)')  # plt.title('Probability Density Function (PDF)')
+    ax2.plot(bins[:-1], pmf, color='b')
+    ax2.set_xlabel('Pixel Value', fontsize=16)
+    ax2.set_ylabel('Probability', fontsize=16)  # plt.ylabel('Probability Density')
+    ax2.set_title('Probability Mass Function (PMF)', fontsize=12)  # plt.title('Probability Density Function (PDF)')
+    # ax2.legend()
+
+    plt.tight_layout()
     plt.show()
