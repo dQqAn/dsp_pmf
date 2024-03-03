@@ -10,6 +10,8 @@ from skimage import filters, color, exposure, transform
 from skimage.util import img_as_ubyte, img_as_float
 from skimage.exposure import histogram, cumulative_distribution
 
+from sum_pixels import show_and_save
+
 
 def calc_color_overcast(image):
     # Calculate color overcast for each channel
@@ -77,6 +79,17 @@ def plot_cdf(image):
     plt.title('Cumulative Distribution Function')
 
     return freq, bins, target_freq, target_bins
+
+
+def show_plot(image_paths):
+    image = cv2.imread(show_and_save(image_paths), cv2.IMREAD_GRAYSCALE)
+    pixels = image.flatten()
+    histogram, bins = np.histogram(pixels, bins=256, range=(0, 256))
+    pmf = histogram / float(np.sum(histogram))
+    plt.plot(bins[:-1], pmf, color='k')
+    plt.xlabel('Pixel Value', fontsize=16)
+    plt.ylabel('Probability', fontsize=16)
+    plt.title('Probability Mass Function (PMF)', fontsize=12)
 
 
 if __name__ == '__main__':
@@ -186,6 +199,7 @@ if __name__ == '__main__':
 
     fig, axs = plt.subplots(num_rows, num_cols, figsize=(20, 8))
 
+    plt.figure(1)  # all image
     for i, (image, (row, col)) in enumerate(zip(images, np.ndindex((num_rows, num_cols)))):
         histogram, bins = np.histogram(image.flatten(), bins=256, range=(0, 256))
         pmf = histogram / np.sum(histogram)
@@ -193,6 +207,41 @@ if __name__ == '__main__':
         axs[row, col].set_title(list(image_paths.keys())[i])
         axs[row, col].set_xlabel('Pixel value')
         axs[row, col].set_ylabel('PMF')
-
     plt.tight_layout()
+
+    plt.figure(2)  # 4 image
+    image_paths2 = {
+        "hacker": "images/hacker.jpg",
+        "lena": "images/lena.png"
+    }
+    show_plot(image_paths2)
+
+    plt.figure(3)  # 8 image
+    image_paths3 = {
+        "apples": "images/apples.jpg",
+        "bird": "images/bird.jpg",
+        "car": "images/car.jpg",
+        "cat_1": "images/cat_1.jpg",
+        "cat_2": "images/cat_2.jpg",
+        "dog": "images/dog.jpg",
+        "flower_1": "images/flower_1.png",
+        "flower_2": "images/flower_2.png",
+    }
+    show_plot(image_paths3)
+
+    plt.figure(4)  # 10 image
+    image_paths4 = {
+        "apples": "images/apples.jpg",
+        "bird": "images/bird.jpg",
+        "car": "images/car.jpg",
+        "cat_1": "images/cat_1.jpg",
+        "cat_2": "images/cat_2.jpg",
+        "dog": "images/dog.jpg",
+        "flower_1": "images/flower_1.png",
+        "flower_2": "images/flower_2.png",
+        "hacker": "images/hacker.jpg",
+        "lena": "images/lena.png"
+    }
+    show_plot(image_paths4)
+
     plt.show()

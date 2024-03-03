@@ -2,6 +2,7 @@ from PIL import Image
 import os
 import datetime
 
+
 def sum_images(image_paths):
     # Open all the images
     # images = [Image.open(path) for path in image_paths]
@@ -42,6 +43,23 @@ def sum_images(image_paths):
     return summed_image
 
 
+def show_and_save(image_paths):
+    summed_image = sum_images(image_paths.values())
+
+    current_directory = os.path.dirname(os.path.abspath(__file__))
+    save_directory = os.path.join(current_directory, "outputs")
+    os.makedirs(save_directory, exist_ok=True)
+    # desktop_path = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S-%f")
+    summed_image.save(os.path.join(save_directory, f'{formatted_time}.jpg'))
+
+    summed_image.show()
+
+    output_image = f'outputs/{formatted_time}.jpg'
+    return output_image
+
+
 if __name__ == '__main__':
     image_paths = {
         # "apples": "images/apples.jpg",
@@ -56,14 +74,4 @@ if __name__ == '__main__':
         # "lena": "images/lena.png"
     }
 
-    summed_image = sum_images(image_paths.values())
-
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-    save_directory = os.path.join(current_directory, "outputs")
-    os.makedirs(save_directory, exist_ok=True)
-    # desktop_path = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
-    current_time = datetime.datetime.now()
-    formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S-%f")
-    summed_image.save(os.path.join(save_directory, f'{formatted_time}.jpg'))
-
-    summed_image.show()
+    show_and_save(image_paths)
