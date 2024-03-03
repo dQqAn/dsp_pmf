@@ -134,32 +134,65 @@ if __name__ == '__main__':
     # plt.title('Probability Density Function (PDF)')
     # plt.show()
 
-    image = cv2.imread("images/view_3.jpg", cv2.IMREAD_GRAYSCALE)
-    # Flatten the pixel values
-    pixels = image.flatten()
+    #
+    #
+    # image = cv2.imread("images/view_3.jpg", cv2.IMREAD_GRAYSCALE)
+    # # Flatten the pixel values
+    # pixels = image.flatten()
+    #
+    # histogram, bins = np.histogram(pixels, bins=256, range=(0, 256))
+    # # pdf, bins = np.histogram(pixels, bins=256, range=(0, 256), density=True)
+    #
+    # # Normalize the PMF
+    # pmf = histogram / float(np.sum(histogram))
+    #
+    # fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), dpi=100)
+    #
+    # ax1.imshow(cv2.cvtColor(image, cv2.COLOR_GRAY2RGB))  # !!!
+    # ax1.axis('off')
+    # ax1.set_title('Grayscale Image', fontsize=12)
+    #
+    # # threshold = 127
+    # # ax2.axhline(y=.002, color='r', linestyle='--', label='Threshold')
+    # # ax2.axvline(x=threshold, color='r', linestyle='--', label='Threshold')
+    # # ax2.legend()
+    #
+    # # Plot the PMF
+    # ax2.plot(bins[:-1], pmf, color='b')
+    # ax2.set_xlabel('Pixel Value', fontsize=16)
+    # ax2.set_ylabel('Probability', fontsize=16)  # plt.ylabel('Probability Density')
+    # ax2.set_title('Probability Mass Function (PMF)', fontsize=12)  # plt.title('Probability Density Function (PDF)')
+    #
+    # plt.tight_layout()
+    # plt.show()
 
-    histogram, bins = np.histogram(pixels, bins=256, range=(0, 256))
-    # pdf, bins = np.histogram(pixels, bins=256, range=(0, 256), density=True)
+    image_paths = {
+        "apples": "images/apples.jpg",
+        "bird": "images/bird.jpg",
+        "car": "images/car.jpg",
+        "cat_1": "images/cat_1.jpg",
+        "cat_2": "images/cat_2.jpg",
+        "dog": "images/dog.jpg",
+        "flower_1": "images/flower_1.png",
+        "flower_2": "images/flower_2.png",
+        "hacker": "images/hacker.jpg",
+        "lena": "images/lena.png"
+    }
 
-    # Normalize the PMF
-    pmf = histogram / float(np.sum(histogram))
+    images = [cv2.imread(path, cv2.IMREAD_GRAYSCALE) for path in image_paths.values()]
 
-    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6), dpi=100)
+    num_rows = 2
+    num_cols = 5
 
-    ax1.imshow(cv2.cvtColor(image, cv2.COLOR_GRAY2RGB))  # !!!
-    ax1.axis('off')
-    ax1.set_title('Grayscale Image', fontsize=12)
+    fig, axs = plt.subplots(num_rows, num_cols, figsize=(20, 8))
 
-    # threshold = 127
-    # ax2.axhline(y=.002, color='r', linestyle='--', label='Threshold')
-    # ax2.axvline(x=threshold, color='r', linestyle='--', label='Threshold')
-    # ax2.legend()
-
-    # Plot the PMF
-    ax2.plot(bins[:-1], pmf, color='b')
-    ax2.set_xlabel('Pixel Value', fontsize=16)
-    ax2.set_ylabel('Probability', fontsize=16)  # plt.ylabel('Probability Density')
-    ax2.set_title('Probability Mass Function (PMF)', fontsize=12)  # plt.title('Probability Density Function (PDF)')
+    for i, (image, (row, col)) in enumerate(zip(images, np.ndindex((num_rows, num_cols)))):
+        histogram, bins = np.histogram(image.flatten(), bins=256, range=(0, 256))
+        pmf = histogram / np.sum(histogram)
+        axs[row, col].plot(bins[:-1], pmf, color='k')
+        axs[row, col].set_title(list(image_paths.keys())[i])
+        axs[row, col].set_xlabel('Pixel value')
+        axs[row, col].set_ylabel('PMF')
 
     plt.tight_layout()
     plt.show()
