@@ -150,12 +150,16 @@ if __name__ == '__main__':
     ax1.axis('off')
     ax1.set_title('Grayscale Image', fontsize=12)
 
+    # threshold = 127
+    # ax2.axhline(y=.002, color='r', linestyle='--', label='Threshold')
+    # ax2.axvline(x=threshold, color='r', linestyle='--', label='Threshold')
+    # ax2.legend()
+
     # Plot the PMF
     ax2.plot(bins[:-1], pmf, color='b')
     ax2.set_xlabel('Pixel Value', fontsize=16)
     ax2.set_ylabel('Probability', fontsize=16)  # plt.ylabel('Probability Density')
     ax2.set_title('Probability Mass Function (PMF)', fontsize=12)  # plt.title('Probability Density Function (PDF)')
-    # ax2.legend()
 
     plt.tight_layout()
     plt.show()
