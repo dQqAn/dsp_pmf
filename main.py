@@ -81,7 +81,7 @@ def plot_cdf(image):
     return freq, bins, target_freq, target_bins
 
 
-def show_plot(image_paths):
+def show_plot(image_paths, title):
     image = cv2.imread(show_and_save(image_paths), cv2.IMREAD_GRAYSCALE)
     pixels = image.flatten()
     histogram, bins = np.histogram(pixels, bins=256, range=(0, 256))
@@ -89,7 +89,7 @@ def show_plot(image_paths):
     plt.plot(bins[:-1], pmf, color='k')
     plt.xlabel('Pixel Value', fontsize=16)
     plt.ylabel('Probability', fontsize=16)
-    plt.title('Probability Mass Function (PMF)', fontsize=12)
+    plt.title(title, fontsize=12)
 
 
 if __name__ == '__main__':
@@ -214,7 +214,7 @@ if __name__ == '__main__':
         "hacker": "images/hacker.jpg",
         "lena": "images/lena.png"
     }
-    show_plot(image_paths2)
+    show_plot(image_paths2, "4 Image PMF")
 
     plt.figure(3)  # 8 image
     image_paths3 = {
@@ -227,7 +227,7 @@ if __name__ == '__main__':
         "flower_1": "images/flower_1.png",
         "flower_2": "images/flower_2.png",
     }
-    show_plot(image_paths3)
+    show_plot(image_paths3, "8 Image PMF")
 
     plt.figure(4)  # 10 image
     image_paths4 = {
@@ -242,6 +242,6 @@ if __name__ == '__main__':
         "hacker": "images/hacker.jpg",
         "lena": "images/lena.png"
     }
-    show_plot(image_paths4)
+    show_plot(image_paths4, "10 Image PMF")
 
     plt.show()
