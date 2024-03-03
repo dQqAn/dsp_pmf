@@ -43,22 +43,22 @@ def sum_images(image_paths):
 
 
 if __name__ == '__main__':
+    image_paths = {
+        # "apples": "images/apples.jpg",
+        "bird": "images/bird.jpg",
+        "car": "images/car.jpg",
+        # "cat_1": "images/cat_1.jpg",
+        # "cat_2": "images/cat_2.jpg",
+        # "dog": "images/dog.jpg",
+        # "flower_1": "images/flower_1.png",
+        # "flower_2": "images/flower_2.png",
+        # "hacker": "images/hacker.jpg",
+        # "lena": "images/lena.png"
+    }
+
+    summed_image = sum_images(image_paths.values())
+
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    image_directory = os.path.join(current_directory, "images")
-
-    # Create a list of absolute paths to the image files
-    image_paths = [
-        # os.path.join(image_directory, "view_2.jpg"),
-        # os.path.join(image_directory, "view_3.jpg"),
-        # os.path.join(image_directory, "flower_2.png"),
-        # os.path.join(image_directory, "lena.png"),
-        # os.path.join(image_directory, "flower_1.png"),
-        os.path.join(image_directory, "car.jpg"),
-        os.path.join(image_directory, "bird.jpg"),
-    ]
-
-    summed_image = sum_images(image_paths)
-
     save_directory = os.path.join(current_directory, "outputs")
     os.makedirs(save_directory, exist_ok=True)
     # desktop_path = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
