@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import image as mpimg
+from PIL import Image
 from scipy.stats import poisson
 import cv2
 import pandas as pd
@@ -11,7 +12,7 @@ from skimage import filters, color, exposure, transform
 from skimage.util import img_as_ubyte, img_as_float
 from skimage.exposure import histogram, cumulative_distribution
 
-from sum_pixels import show_and_save
+from sum_pixels import save_image, sum_images
 
 
 def calc_color_overcast(image):
@@ -101,7 +102,12 @@ def show_images(image_paths):
 
 
 def show_plot(image_paths, title):
-    image = cv2.imread(show_and_save(image_paths), cv2.IMREAD_GRAYSCALE)
+    image = sum_images(image_paths)
+    output_image = save_image(image)
+    result_image = Image.open(output_image)
+    result_image.show()
+
+    image = cv2.imread(output_image, cv2.IMREAD_GRAYSCALE)
     pixels = image.flatten()
     histogram, bins = np.histogram(pixels, bins=256, range=(0, 256))
     pmf = histogram / float(np.sum(histogram))

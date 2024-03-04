@@ -1,9 +1,12 @@
+import cv2
 from PIL import Image
 import os
 import datetime
 
+from matplotlib import pyplot as plt
 
-def sum_images(image_paths):
+
+def sum_images2(image_paths):
     # Open all the images
     # images = [Image.open(path) for path in image_paths]
     # images = [Image.open(path).convert("L") for path in image_paths]
@@ -43,8 +46,8 @@ def sum_images(image_paths):
     return summed_image
 
 
-def show_and_save(image_paths):
-    summed_image = sum_images(image_paths.values())
+def show_and_save2(image_paths):
+    summed_image = sum_images2(image_paths.values())
 
     current_directory = os.path.dirname(os.path.abspath(__file__))
     save_directory = os.path.join(current_directory, "outputs")
@@ -57,6 +60,32 @@ def show_and_save(image_paths):
     summed_image.show()
 
     output_image = f'outputs/{formatted_time}.jpg'
+    return output_image
+
+
+def sum_images(image_paths):
+    images = []
+    for path in image_paths.values():
+        image = cv2.imread(path)
+        images.append(image)
+
+    for i in range(1, len(images)):
+        images[i] = cv2.resize(images[i], (images[0].shape[1], images[0].shape[0]))
+
+    result_image = images[0]
+    for i in range(1, len(images)):
+        result_image = cv2.add(result_image, images[i])
+
+    return result_image
+
+
+def save_image(image_name):
+    current_time = datetime.datetime.now()
+    formatted_time = current_time.strftime("%Y-%m-%d_%H-%M-%S-%f")
+    os.makedirs("outputs", exist_ok=True)
+    cv2.imwrite(f"outputs/{formatted_time}.jpg", image_name)
+
+    output_image = f"outputs/{formatted_time}.jpg"
     return output_image
 
 
@@ -74,4 +103,16 @@ if __name__ == '__main__':
         # "lena": "images/lena.png"
     }
 
-    show_and_save(image_paths)
+    image = sum_images(image_paths)
+    output_image = save_image(image)
+
+    result_image = Image.open(output_image)
+    result_image.show()
+
+    # cv2.imshow("Result Image", image)
+    # cv2.waitKey(0)
+    # cv2.destroyAllWindows()
+
+    # plt.imshow(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+    # plt.axis('off')
+    # plt.show()
