@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib import image as mpimg
 from scipy.stats import poisson
 import cv2
 import pandas as pd
@@ -79,6 +80,24 @@ def plot_cdf(image):
     plt.title('Cumulative Distribution Function')
 
     return freq, bins, target_freq, target_bins
+
+
+def show_images(image_paths):
+    # images = [cv2.imread(path, cv2.IMREAD_GRAYSCALE) for path in image_paths.values()]
+    images = [mpimg.imread(path) for path in image_paths.values()]
+
+    # Tablo düzenini ayarla
+    num_rows = 2
+    num_cols = 5
+
+    # 2 satır 5 sütunluk bir subplot oluşturun
+    fig, axs = plt.subplots(num_rows, num_cols)
+
+    # Resimleri subplotlara yerleştirin
+    for i, (image, (row, col)) in enumerate(zip(images, np.ndindex((num_rows, num_cols)))):
+        axs[row, col].imshow(image, cmap='gray')
+        axs[row, col].axis('off')
+        axs[row, col].set_title(list(image_paths.keys())[i])
 
 
 def show_plot(image_paths, title):
@@ -192,6 +211,9 @@ if __name__ == '__main__':
         "lena": "images/lena.png"
     }
 
+    # plt.figure(1)  # all images
+    show_images(image_paths)
+
     images = [cv2.imread(path, cv2.IMREAD_GRAYSCALE) for path in image_paths.values()]
 
     num_rows = 2
@@ -199,7 +221,7 @@ if __name__ == '__main__':
 
     fig, axs = plt.subplots(num_rows, num_cols, figsize=(20, 8))
 
-    plt.figure(1)  # all image
+    plt.figure(2)  # all image
     for i, (image, (row, col)) in enumerate(zip(images, np.ndindex((num_rows, num_cols)))):
         histogram, bins = np.histogram(image.flatten(), bins=256, range=(0, 256))
         pmf = histogram / np.sum(histogram)
@@ -209,14 +231,14 @@ if __name__ == '__main__':
         axs[row, col].set_ylabel('PMF')
     plt.tight_layout()
 
-    plt.figure(2)  # 4 image
+    plt.figure(3)  # 4 image
     image_paths2 = {
         "hacker": "images/hacker.jpg",
         "lena": "images/lena.png"
     }
     show_plot(image_paths2, "4 Image PMF")
 
-    plt.figure(3)  # 8 image
+    plt.figure(4)  # 8 image
     image_paths3 = {
         "apples": "images/apples.jpg",
         "bird": "images/bird.jpg",
@@ -229,7 +251,7 @@ if __name__ == '__main__':
     }
     show_plot(image_paths3, "8 Image PMF")
 
-    plt.figure(4)  # 10 image
+    plt.figure(5)  # 10 image
     image_paths4 = {
         "apples": "images/apples.jpg",
         "bird": "images/bird.jpg",
