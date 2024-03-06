@@ -111,10 +111,18 @@ def show_plot(image_paths, title):
     pixels = image.flatten()
     histogram, bins = np.histogram(pixels, bins=256, range=(0, 256))
     pmf = histogram / float(np.sum(histogram))
+
+    plt.subplot(1, 2, 1)
+    plt.hist(pixels, bins=256, range=(0, 256), color='gray')
+    plt.title(f'{title}+ Histogram', fontsize=12)
+    plt.xlabel('Pixel Value', fontsize=16)
+    plt.ylabel('Frequency', fontsize=16)
+
+    plt.subplot(1, 2, 2)
     plt.plot(bins[:-1], pmf, color='k')
+    plt.title(f'{title}+ PMF', fontsize=12)
     plt.xlabel('Pixel Value', fontsize=16)
     plt.ylabel('Probability', fontsize=16)
-    plt.title(title, fontsize=12)
 
 
 if __name__ == '__main__':
@@ -235,7 +243,6 @@ if __name__ == '__main__':
         axs[row, col].set_title(list(image_paths.keys())[i])
         axs[row, col].set_xlabel('Pixel value')
         axs[row, col].set_ylabel('PMF')
-    plt.tight_layout()
 
     plt.figure(3)  # 4 image
     image_paths2 = {
@@ -272,4 +279,5 @@ if __name__ == '__main__':
     }
     show_plot(image_paths4, "10 Image PMF")
 
+    plt.tight_layout()
     plt.show()
