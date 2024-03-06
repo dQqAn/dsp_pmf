@@ -114,13 +114,13 @@ def show_plot(image_paths, title):
 
     plt.subplot(1, 2, 1)
     plt.hist(pixels, bins=256, range=(0, 256), color='gray')
-    plt.title(f'{title} + Histogram', fontsize=12)
+    plt.title(f'{title} Histogram', fontsize=12)
     plt.xlabel('Pixel Value', fontsize=16)
     plt.ylabel('Frequency', fontsize=16)
 
     plt.subplot(1, 2, 2)
     plt.plot(bins[:-1], pmf, color='k')
-    plt.title(f'{title} + PMF', fontsize=12)
+    plt.title(f'{title} PMF', fontsize=12)
     plt.xlabel('Pixel Value', fontsize=16)
     plt.ylabel('Probability', fontsize=16)
 
