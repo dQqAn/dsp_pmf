@@ -238,7 +238,7 @@ if __name__ == '__main__':
     plt.figure(2)  # all image
     for i, (image, (row, col)) in enumerate(zip(images, np.ndindex((num_rows, num_cols)))):
         histogram, bins = np.histogram(image.flatten(), bins=256, range=(0, 256))
-        pmf = histogram / np.sum(histogram)
+        pmf = histogram / float(np.sum(histogram))
         axs[row, col].plot(bins[:-1], pmf, color='k')
         axs[row, col].set_title(list(image_paths.keys())[i])
         axs[row, col].set_xlabel('Pixel value')
