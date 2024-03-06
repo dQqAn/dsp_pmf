@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 from PIL import Image
 import os
 import datetime
@@ -76,6 +77,14 @@ def sum_images(image_paths):
     for i in range(1, len(images)):
         result_image = cv2.add(result_image, images[i])
 
+    # print(result_image)
+    result_image = result_image / len(images)  # Calculate the average
+    # print("\n")
+    # print(result_image)
+    # result_image = result_image.astype(np.uint8)  # Convert back to uint8
+    # result_image = np.zeros_like(result_image)
+    # result_image = np.ones_like(result_image) * 255
+
     return result_image
 
 
@@ -91,9 +100,9 @@ def save_image(image_name):
 
 if __name__ == '__main__':
     image_paths = {
-        # "apples": "images/apples.jpg",
+        "apples": "images/apples.jpg",
         "bird": "images/bird.jpg",
-        "car": "images/car.jpg",
+        # "car": "images/car.jpg",
         # "cat_1": "images/cat_1.jpg",
         # "cat_2": "images/cat_2.jpg",
         # "dog": "images/dog.jpg",
