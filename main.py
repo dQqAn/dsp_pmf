@@ -246,8 +246,10 @@ if __name__ == '__main__':
 
     plt.figure(3)  # 4 image
     image_paths2 = {
-        "hacker": "images/hacker.jpg",
-        "lena": "images/lena.png"
+        "apples": "images/apples.jpg",
+        "bird": "images/bird.jpg",
+        "car": "images/car.jpg",
+        "cat_1": "images/cat_1.jpg",
     }
     show_plot(image_paths2, "4 Image")
 
